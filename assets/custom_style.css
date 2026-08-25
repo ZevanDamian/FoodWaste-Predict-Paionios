@@ -1,0 +1,367 @@
+/* =============================================================================
+   custom_style.css
+   FoodWaste Predictor — Tim Paionios (COMPFEST 18 AI Innovation Challenge)
+   -----------------------------------------------------------------------------
+   Design tokens:
+   - Warna dasar terinspirasi dari suasana dapur/bakery yang segar dan alami:
+     hijau pinus (kesegaran bahan pangan & keberlanjutan), amber hangat
+     (kehangatan roti/oven), dengan aksen risiko merah-bata yang tenang
+     (bukan merah alarm yang mencolok).
+   - Tipografi: Plus Jakarta Sans (display/UI) dipadu Inter (body copy) sesuai
+     permintaan brief, serta IBM Plex Mono khusus untuk angka KPI — memberi
+     kesan "instrumen presisi" selaras dengan tema prediksi/forecasting.
+   - Signature element: gauge semi-circular pada kartu risiko overstock,
+     terinspirasi dari jarum termometer oven / pengukur analog di dapur.
+   ============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root {
+    --fwp-bg: #F5F6F1;
+    --fwp-surface: #FFFFFF;
+    --fwp-border: #E3E1D8;
+
+    --fwp-primary: #1F4B3F;
+    --fwp-primary-dark: #163329;
+    --fwp-primary-light: #2F8F5B;
+    --fwp-accent-amber: #E8A33D;
+
+    --fwp-text: #1C2420;
+    --fwp-text-muted: #6B7568;
+    --fwp-text-on-primary: #F5F6F1;
+
+    --fwp-risk-high: #C1443B;
+    --fwp-risk-medium: #D98E2B;
+    --fwp-risk-low: #2F8F5B;
+
+    --fwp-radius-lg: 20px;
+    --fwp-radius-md: 14px;
+    --fwp-radius-sm: 8px;
+
+    --fwp-shadow-card: 0 1px 2px rgba(28, 36, 32, 0.04), 0 8px 24px rgba(28, 36, 32, 0.06);
+    --fwp-shadow-hover: 0 4px 8px rgba(28, 36, 32, 0.06), 0 16px 32px rgba(28, 36, 32, 0.09);
+
+    --fwp-font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    --fwp-font-body: 'Inter', sans-serif;
+    --fwp-font-mono: 'IBM Plex Mono', monospace;
+}
+
+/* --- Reset ringan area Gradio agar tema kustom dominan ----------------- */
+.gradio-container {
+    background: var(--fwp-bg) !important;
+    font-family: var(--fwp-font-body) !important;
+    color: var(--fwp-text) !important;
+    max-width: 1280px !important;
+}
+
+.gradio-container * {
+    box-sizing: border-box;
+}
+
+footer.svelte-mpyp5e { display: none !important; } /* sembunyikan footer default "Built with Gradio" */
+
+/* =============================================================================
+   HEADER
+   ============================================================================= */
+.fwp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: linear-gradient(135deg, var(--fwp-primary) 0%, var(--fwp-primary-dark) 100%);
+    color: var(--fwp-text-on-primary);
+    padding: 28px 32px;
+    border-radius: var(--fwp-radius-lg);
+    margin-bottom: 24px;
+    box-shadow: var(--fwp-shadow-card);
+}
+
+.fwp-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.fwp-header__logo {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(245, 246, 241, 0.12);
+    border-radius: var(--fwp-radius-md);
+    color: var(--fwp-accent-amber);
+}
+.fwp-header__logo svg { width: 26px; height: 26px; }
+
+.fwp-header__text h1 {
+    font-family: var(--fwp-font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.01em;
+}
+
+.fwp-header__text p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.82;
+    font-weight: 400;
+}
+
+.fwp-header__badge {
+    font-family: var(--fwp-font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    background: rgba(232, 163, 61, 0.16);
+    color: var(--fwp-accent-amber);
+    border: 1px solid rgba(232, 163, 61, 0.4);
+    padding: 6px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+/* =============================================================================
+   CARD GENERIK
+   ============================================================================= */
+.fwp-card,
+.fwp-input-panel,
+.fwp-dashboard-panel > .fwp-card {
+    background: var(--fwp-surface) !important;
+    border: 1px solid var(--fwp-border) !important;
+    border-radius: var(--fwp-radius-lg) !important;
+    padding: 22px !important;
+    box-shadow: var(--fwp-shadow-card);
+    margin-bottom: 16px;
+}
+
+.fwp-card__title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--fwp-font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--fwp-primary-dark);
+    margin-bottom: 16px;
+}
+.fwp-card__title svg { width: 20px; height: 20px; color: var(--fwp-primary); }
+
+.fwp-subtitle {
+    font-family: var(--fwp-font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--fwp-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+}
+
+/* =============================================================================
+   INPUT PANEL — override komponen Gradio bawaan agar bergaya "card form"
+   ============================================================================= */
+.fwp-input-panel label span {
+    font-family: var(--fwp-font-body) !important;
+    font-weight: 600 !important;
+    font-size: 0.82rem !important;
+    color: var(--fwp-text) !important;
+}
+
+.fwp-input-panel input,
+.fwp-input-panel select,
+.fwp-input-panel textarea {
+    border-radius: var(--fwp-radius-sm) !important;
+    border: 1px solid var(--fwp-border) !important;
+    font-family: var(--fwp-font-body) !important;
+}
+
+.fwp-input-panel input:focus,
+.fwp-input-panel select:focus {
+    border-color: var(--fwp-primary) !important;
+    box-shadow: 0 0 0 3px rgba(31, 75, 63, 0.12) !important;
+}
+
+.fwp-predict-btn {
+    font-family: var(--fwp-font-display) !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    background: var(--fwp-primary) !important;
+    border: none !important;
+    border-radius: var(--fwp-radius-md) !important;
+    padding: 14px !important;
+    margin-top: 8px !important;
+    color: var(--fwp-text-on-primary) !important;
+    box-shadow: var(--fwp-shadow-card);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.fwp-predict-btn:hover {
+    background: var(--fwp-primary-dark) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--fwp-shadow-hover);
+}
+.fwp-predict-btn:active {
+    transform: translateY(0px);
+}
+
+/* =============================================================================
+   DASHBOARD / KPI CARDS
+   ============================================================================= */
+.fwp-empty-state,
+.fwp-error-state {
+    text-align: center;
+    padding: 36px 20px;
+    color: var(--fwp-text-muted);
+    font-size: 0.92rem;
+}
+.fwp-empty-state__icon,
+.fwp-error-state__icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 12px auto;
+    color: var(--fwp-accent-amber);
+}
+.fwp-error-state__icon { color: var(--fwp-risk-high); }
+.fwp-empty-state__icon svg,
+.fwp-error-state__icon svg { width: 100%; height: 100%; }
+.fwp-empty-state p, .fwp-error-state p { margin: 4px 0; }
+
+.fwp-fallback-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FCF1DE;
+    border: 1px solid var(--fwp-risk-medium);
+    color: #6B4A0F;
+    padding: 12px 16px;
+    border-radius: var(--fwp-radius-md);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+}
+.fwp-fallback-banner svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+.fwp-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.fwp-kpi-card {
+    background: var(--fwp-surface);
+    border: 1px solid var(--fwp-border);
+    border-radius: var(--fwp-radius-lg);
+    padding: 20px;
+    box-shadow: var(--fwp-shadow-card);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.fwp-kpi-card:hover {
+    box-shadow: var(--fwp-shadow-hover);
+    transform: translateY(-2px);
+}
+
+.fwp-kpi-card__icon {
+    width: 30px;
+    height: 30px;
+    color: var(--fwp-primary);
+    margin-bottom: 4px;
+}
+.fwp-kpi-card__icon svg { width: 100%; height: 100%; }
+
+.fwp-kpi-card__label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--fwp-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.fwp-kpi-card__value {
+    font-family: var(--fwp-font-mono);
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: var(--fwp-text);
+    line-height: 1.1;
+}
+.fwp-kpi-card__value span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--fwp-text-muted);
+    font-family: var(--fwp-font-body);
+}
+
+.fwp-kpi-card--accent .fwp-kpi-card__value { color: var(--fwp-primary); }
+.fwp-kpi-card--accent .fwp-kpi-card__icon { color: var(--fwp-primary-light); }
+
+/* Kartu risiko (dengan gauge) — signature element */
+.fwp-kpi-card--risk {
+    grid-column: span 2;
+    align-items: center;
+    text-align: center;
+    background: var(--risk-bg, var(--fwp-surface));
+    border-color: var(--risk-border, var(--fwp-border));
+}
+.fwp-kpi-card--risk .fwp-kpi-card__label { color: var(--risk-text, var(--fwp-text-muted)); }
+
+.fwp-gauge {
+    width: 200px;
+    max-width: 60%;
+    height: auto;
+    margin: 6px auto;
+}
+
+.fwp-kpi-card__risk-tag {
+    font-family: var(--fwp-font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+    color: var(--risk-text, var(--fwp-text));
+}
+
+/* =============================================================================
+   STRATEGIC INSIGHT PANEL
+   ============================================================================= */
+.fwp-insight-panel {
+    background: linear-gradient(135deg, rgba(31, 75, 63, 0.06) 0%, rgba(232, 163, 61, 0.08) 100%);
+    border: 1px solid var(--fwp-border);
+    border-left: 4px solid var(--fwp-primary);
+    border-radius: var(--fwp-radius-md);
+    padding: 18px 20px;
+}
+.fwp-insight-panel__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--fwp-font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--fwp-primary-dark);
+    margin-bottom: 8px;
+}
+.fwp-insight-panel__title svg { width: 18px; height: 18px; color: var(--fwp-accent-amber); }
+.fwp-insight-panel p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--fwp-text);
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+@media (max-width: 900px) {
+    .fwp-header { padding: 20px; }
+    .fwp-kpi-grid { grid-template-columns: 1fr; }
+    .fwp-kpi-card--risk { grid-column: span 1; }
+}
+
+/* Hormati preferensi reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .fwp-predict-btn, .fwp-kpi-card { transition: none !important; }
+}
